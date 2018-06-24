@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!--配置常量:struts.action.extension 配置url访问的后缀-->
+    <constant name="struts.action.extension" value="action"></constant>
+    <!-- 去掉struts2提供的UI标签的样式 -->
+    <constant name="struts.ui.theme" value="simple"></constant>
+    <package name="crm" extends="struts-default" namespace="/">
+
+        <action name="user_*" class="userAction" method="{1}">
+            <result name="save" type="redirect">login.jsp</result>
+            <result name="login" type="redirect">index.jsp</result>
+            <result name="error">login.jsp</result>
+        </action>
+
+        <action name="customer_*" class="customerAction" method="{1}">
+            <result name="save" type="redirectAction">customer_findBypage.action</result>
+            <result name="saveUI">/jsp/customer/add.jsp</result>
+            <result name="findBypage">/jsp/customer/list.jsp</result>
+            <result name="delete" type="redirectAction">customer_findBypage.action</result>
+            <result name="updateUI">/jsp/customer/edit.jsp</result>
+            <result name="edit" type="redirectAction">customer_findBypage.action</result>
+            <!-- 以stream二进制流的方式打开 -->
+            <result name="downloadpic" type="stream">
+                <!-- 以什么形式下载 默认为在线下载   并指定文件名 -->
+                <param name="contentDisposition">attachment;filename=${fileName}</param>
+                <param name="contentType">${contentType}</param>
+                <!-- Action里的流的名称 -->
+                <param name="inputName">inputStream</param>
+            </result>
+        
+        </action>
+
+        <action name="linkMan_*" class="linkManAction" method="{1}">
+            <result name="saveUI">/jsp/linkman/add.jsp</result>
+            <result name="save" type="redirectAction">linkMan_fingByPage.action</result>
+            <result name="findBypage">/jsp/linkman/list.jsp</result>
+           <result name="delete" type="redirectAction">linkMan_fingByPage.action</result>
+
+        </action>
+
+        <action name="baseDict_*" class="baseDictAction" method="execute">
+        </action>
+    </package>
+</struts>
